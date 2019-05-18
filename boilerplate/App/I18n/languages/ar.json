@@ -1,0 +1,13 @@
+{
+	"Alert": "محزر",
+	"You have to fill the mobile and password fields first!": "يجب عليك ملء حقول الهاتف المحمول وكلمة المرور أولاً!",
+	"Login": "تسجيل الدخول",
+	"Mobile": "التليفون المحمول",
+	"Password": "كلمه السر",
+	"Don't have account? Create new account": "لا تملك حساب؟ انشاء حساب جديد",
+	"You have to fill all required fields with * sign": "يجب عليك ملء كل الحقول المطلوبة بعلامة *",
+	"Name": "اسم",
+	"You will receive a confirmation code": "سوف تتلقى رمز التأكيد",
+	"Cancel": "إلغاء",
+	"Register": "تسجيل"
+}
