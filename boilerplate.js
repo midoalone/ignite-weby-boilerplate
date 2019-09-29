@@ -7,7 +7,7 @@
  *
  */
 
-const REACT_NATIVE_VERSION = '0.57.5'
+const REACT_NATIVE_VERSION = '0.61.1'
 const { merge, pipe, assoc, omit, __ } = require('ramda')
 
 /**
@@ -55,6 +55,9 @@ async function install (context) {
     overwrite: true
   })
   filesystem.copy(`${PLUGIN_PATH}/boilerplate/native-base-theme`, `${APP_PATH}/native-base-theme`, {
+    overwrite: true
+  })
+  filesystem.copy(`${PLUGIN_PATH}/boilerplate/Generator`, `${APP_PATH}/Generator`, {
     overwrite: true
   })
   spinner.stop()
@@ -118,6 +121,7 @@ async function install (context) {
     // write this out
     filesystem.write('package.json', newPackage, { jsonIndent: 2 })
   }
+
   await mergePackageJsons()
 
   spinner.stop()
@@ -141,7 +145,7 @@ async function install (context) {
     // pass along the debug flag if we're running in that mode
     const debugFlag = parameters.options.debug ? '--debug' : ''
 
-    await system.spawn(`ignite add ${__dirname} ${debugFlag}`, { stdio: 'inherit' })
+    // await system.spawn(`ignite add ${__dirname} ${debugFlag}`, { stdio: 'inherit' })
 
     // example of another plugin you could install
     // await system.spawn(`ignite add i18n ${debugFlag}`, { stdio: 'inherit' })
@@ -149,6 +153,44 @@ async function install (context) {
     ignite.log(e)
     throw e
   }
+
+  // Patching splash screen
+  spinner.text = '▸ Patching splash screen files'
+  spinner.start()
+
+  // Main activity inject splash
+  await ignite.copyBatch(context, [
+    { template: 'patches/MainActivity.java.ejs', target: 'MainActivity.java' }
+  ], {
+    app_package: name.toLowerCase(),
+    app_name: name,
+  }, {
+    quiet: true,
+    directory: `${APP_PATH}/android/app/src/main/java/com/${name.toLowerCase()}`
+  })
+
+  // Layout
+  filesystem.copy(`${PLUGIN_PATH}/boilerplate/patches/layout`, `${APP_PATH}/android/app/src/main/res/layout`, {
+    overwrite: true
+  })
+
+  // iOS AppDelegate
+  filesystem.copy(`${PLUGIN_PATH}/boilerplate/patches/AppDelegate.m`, `${APP_PATH}/ios/${name}/AppDelegate.m`, {
+    overwrite: true
+  })
+
+  // Logo
+  filesystem.copy(`${PLUGIN_PATH}/boilerplate/patches/drawable-mdpi/logo.png`, `${APP_PATH}/android/app/src/main/res/drawable-mdpi/logo.png`, {
+    overwrite: true
+  })
+
+  await system.spawn('react-native link', { stdio: 'ignore' })
+
+  spinner.stop()
+
+  // Remove unwanted files
+  filesystem.remove('ios/' + name + '-tvOS')
+  filesystem.remove('ios/' + name + '-tvOSTests')
 
   // initialize git
   const gitExists = await filesystem.exists('.git')

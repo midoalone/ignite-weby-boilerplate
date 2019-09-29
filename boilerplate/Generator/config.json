@@ -1,5 +1,44 @@
 {
-	"files": [
-
+	"structure" : [
+		{
+			"folder": "Orders",
+			"files": [
+				"Orders/OrdersList",
+				"Orders/OrderSingle"
+			]
+		},
+		{
+			"folder": "Settings",
+			"files": [
+				"Settings/Account",
+				"Settings/Addresses",
+				"Settings/SingleAddress",
+				"Settings/Support"
+			]
+		},
+		{
+			"folder": "Products",
+			"files": [
+				"Products/ProductSingle"
+			]
+		},
+		{
+			"folder": "Cart",
+			"files": [
+				"Cart/Cart"
+			]
+		},
+		{
+			"folder": "Checkout",
+			"files": [
+				"Checkout/Checkout"
+			]
+		},
+		{
+			"folder": "Favourites",
+			"files": [
+				"Favourites/Favourites"
+			]
+		}
 	]
 }

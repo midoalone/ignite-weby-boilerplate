@@ -14,9 +14,9 @@ export default class FormMobile extends Component {
 				}
 				mask={"+966 5[00000000]"}
 				underlineColorAndroid={Colors.transparent}
-				style={{fontSize: 13, textAlign: "right", height: 38}}
+				style={{fontSize: 13, textAlign: "right", height: 38, color: Colors.white}}
 				placeholder={"+966 5XXXXXXX"}
-				placeholdertextColor={Colors.gray}
+				placeholderTextColor={Colors.mainLight}
 				keyboardType={"numeric"}
 			/>
 		)

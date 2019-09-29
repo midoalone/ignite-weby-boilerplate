@@ -1,16 +1,40 @@
-import React, { Component } from 'react'
-import { View } from 'react-native'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {Container} from 'native-base'
+import {Colors} from '../Themes'
+import LoginActions from "../Redux/LoginRedux"
+import AppHeader from "../Components/Header"
+import {Content} from "../Components/Content"
 
-// Styles
-import styles from './Styles/CommonStyles'
-import { Text } from 'native-base'
+class MainScreen extends Component {
 
-export default class MainScreen extends Component {
-	render () {
+	render() {
 		return (
-			<View style={styles.mainContainer}>
-				<Text style={{textAlign: 'left'}}>Main Screen</Text>
-			</View>
+			<Container>
+
+				<AppHeader title={"Cart"} />
+
+				<Content padder>
+
+				</Content>
+			</Container>
 		)
 	}
 }
+
+const mapStateToProps = (state) => {
+	return {
+		settings: state.settings.data,
+		login: state.login.data
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+	return {
+		saveLoginData: data => {
+			dispatch(LoginActions.loginSuccess(data))
+		}
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen)

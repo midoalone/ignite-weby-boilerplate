@@ -15,6 +15,7 @@ class LaunchScreen extends Component {
 
 	async componentDidMount (): void {
 
+
 		// Arabic only app
 		if (!I18nManager.isRTL) {
 			I18nManager.forceRTL(true)
@@ -29,22 +30,19 @@ class LaunchScreen extends Component {
 		}
 
 		// Launch data
-		let request  = await api.getLaunchData()
+		let request  = await api.getData('launch')
 		let data = request.data
-		this.props.saveSettings({...this.props.settings, ...data})
+		this.props.saveSettings({...this.props.settings, ...data.data})
 
 		// With login feature
 		if(this.props.login) {
 			let request  = await api.checkLogin(this.props.login.token)
 			let data = request.data
 			this.props.saveLogin(data)
-			this.props.navigation.navigate("MainNavigator")
-		}else{
-			this.props.navigation.navigate("LoginNavigator")
 		}
 
 		// Without login feature
-		// this.props.navigation.navigate("MainNavigator")
+		this.props.navigation.navigate("MainNavigator")
 
 		SplashScreen.hide()
 	}
@@ -52,7 +50,7 @@ class LaunchScreen extends Component {
 	render () {
 		return (
 			<View style={styles.mainContainer} />
-		)
+	)
 	}
 }
 

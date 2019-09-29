@@ -9,7 +9,7 @@ export default class FormTextarea extends Component {
 			<Textarea
 				placeholder={this.props.placeholder}
 				style={[styles.input, styles.textarea]}
-				placeholderTextColor={Colors.darkGray}
+				placeholderTextColor={Colors.grayDark}
 				{...this.props}
 			/>
 		)

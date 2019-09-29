@@ -1,9 +1,11 @@
 import '../Config'
 import DebugConfig from '../Config/DebugConfig'
-import React, { Component } from 'react'
-import { Provider } from 'react-redux'
+import React, {Component} from 'react'
+import {Provider} from 'react-redux'
 import RootContainer from './RootContainer'
 import createStore from '../Redux'
+import {Root} from "native-base"
+import ZadAlertRoot from "../Components/ZadAlert/ZadAlertRoot"
 
 // create our store
 const store = createStore()
@@ -18,10 +20,14 @@ const store = createStore()
  * We separate like this to play nice with React Native's hot reloading.
  */
 class App extends Component {
-	render () {
+	render() {
 		return (
 			<Provider store={store}>
-				<RootContainer/>
+				<Root>
+					<ZadAlertRoot>
+						<RootContainer />
+					</ZadAlertRoot>
+				</Root>
 			</Provider>
 		)
 	}

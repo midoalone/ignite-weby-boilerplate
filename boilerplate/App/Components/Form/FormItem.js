@@ -5,7 +5,7 @@ import React, {Component} from 'react'
 
 export default class FormItem extends Component {
 	render () {
-		let backgroundColor = this.props.clear ? 'transparent' : '#F3F4F3'
+		let backgroundColor = this.props.clear ? 'transparent' : Colors.mainDark
 		if (this.props.dark) {
 			backgroundColor = Colors.background
 		}

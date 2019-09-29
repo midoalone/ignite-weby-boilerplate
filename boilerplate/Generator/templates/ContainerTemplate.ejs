@@ -1,25 +1,23 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Content} from 'native-base'
+import {Container} from 'native-base'
 import {Colors} from '<%= levels %>Themes'
 import LoginActions from "<%= levels %>Redux/LoginRedux"
-import {AppHeader} from "<%= levels %>Components/UiComponents"
-import {BackgroundContainer} from "<%= levels %>Components/Container"
+import AppHeader from "<%= levels %>Components/Header"
+import {Content} from "<%= levels %>Components/Content"
 
 class <%= name %> extends Component {
 
 	render() {
-		const {navigation} = this.props
-		const {navigate} = navigation
 		return (
-			<BackgroundContainer>
+			<Container>
 
 				<AppHeader title={"<%= title %>"} />
 
-				<Content style={{ backgroundColor: Colors.transparent, marginTop: 40 }} padder>
+				<Content padder>
 
 				</Content>
-			</BackgroundContainer>
+			</Container>
 		)
 	}
 }

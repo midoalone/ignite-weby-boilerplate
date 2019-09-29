@@ -1,6 +1,6 @@
 // a library to wrap and simplify api calls
 import apisauce from "apisauce"
-import { baseUrl } from "../Config/Globals"
+import {baseUrl} from "../Config/Globals"
 
 // our "constructor"
 const create = (baseURL = baseUrl) => {
@@ -12,13 +12,16 @@ const create = (baseURL = baseUrl) => {
 		timeout: 10000
 	})
 
-	const getLaunchData = () => api.post("launch")
+	// Global get data
+	const getData = (endpoint, params = {}, method = 'get') => api[method](endpoint, params)
 
-	const checkLogin = (data) => api.post('check_login', data)
-	const verifyCode = (data) => api.post('verify_code', data)
+	// Account API
+	const checkLogin = (data) => api.post('login', data)
+	const verifyCode = (data) => api.post('verify', data)
 	const registerAccount = (data) => api.post('register_account', {...data})
 	const changePassword = (data) => api.post('change_password', data)
 
+	// Upload API
 	const uploadPhoto = (photo, extras) => {
 		const data = new FormData()
 
@@ -28,7 +31,7 @@ const create = (baseURL = baseUrl) => {
 			name: photo.fileName
 		})
 
-		if(extras) {
+		if (extras) {
 			extras.map((extra) => {
 				data.append(extra.key, extra.value)
 			})
@@ -42,7 +45,7 @@ const create = (baseURL = baseUrl) => {
 		verifyCode,
 		registerAccount,
 		changePassword,
-		getLaunchData,
+		getData,
 		uploadPhoto,
 	}
 }

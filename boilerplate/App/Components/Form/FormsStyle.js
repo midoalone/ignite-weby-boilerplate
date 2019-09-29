@@ -6,7 +6,9 @@ export default StyleSheet.create({
     itemContainer: {
         paddingHorizontal: 7,
         flex: 1,
-        borderRadius: 7
+        borderRadius: 30,
+		borderWidth: 2,
+		borderColor: Colors.mainLight
     },
     cleanItemContainer: {
         paddingHorizontal: 7
@@ -17,7 +19,8 @@ export default StyleSheet.create({
     },
     label: {
         fontFamily: boldFont,
-        fontSize: 14
+        fontSize: 14,
+		color: Colors.brand
     },
     required: {
         color: 'red'
@@ -25,19 +28,20 @@ export default StyleSheet.create({
     hint: {
         fontFamily: regularFont,
         fontSize: 12,
-        color: Colors.accent
+        color: Colors.grayDark
     },
     input: {
         fontFamily: regularFont,
         fontSize: 13,
         height: 38,
-        textAlign: 'right'
+        textAlign: 'right',
+		color: Colors.white
     },
     textarea: {
         height: 90,
     },
     pickerArrow: {
-        color: Colors.accent,
+        color: Colors.grayDark,
         position: 'absolute',
         right: 10,
         top: 5,
@@ -59,7 +63,7 @@ export default StyleSheet.create({
     photoPlaceholderView: {
         width: 65,
         height: 65,
-        backgroundColor: Colors.accent,
+        backgroundColor: Colors.grayDark,
         alignItems: 'center',
         flexDirection: 'row',
         borderRadius: 35

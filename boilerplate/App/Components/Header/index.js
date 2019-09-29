@@ -4,8 +4,9 @@ import { StatusBar, I18nManager } from 'react-native'
 import { NavigationActions } from 'react-navigation'
 import Colors from '../../Themes/Colors'
 import Icon from '../Icon'
+import NavigationService from "../../Navigation/NavigationService"
 
-export default class Header extends Component {
+export default class AppHeader extends Component {
 
 	constructor (props) {
 		super(props)

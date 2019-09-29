@@ -16,45 +16,45 @@ class CodeVerification extends Component {
     }
 
     render() {
+    	let {phone} = this.props
         return (
             <View style={{alignItems: 'center'}}>
-                <Icon name={'lock'} style={{color: '#9E9F9E', fontSize: 60, marginBottom: 5}} />
+                <Icon name={'lock'} style={{color: '#f6f6f6', fontSize: 60, marginBottom: 5}} />
 
-                <View style={{flexDirection: 'row', borderWidth: 2, borderColor: '#9E9F9E', paddingVertical: 3, paddingHorizontal: 10, borderRadius: 20}}>
-                    <Icon name={'ios-medical'} style={{color: '#9E9F9E', marginRight: 5}} />
-                    <Icon name={'ios-medical'} style={{color: '#9E9F9E', marginRight: 5}} />
-                    <Icon name={'ios-medical'} style={{color: '#9E9F9E', marginRight: 5}} />
-                    <Icon name={'ios-medical'} style={{color: '#9E9F9E', marginRight: 5}} />
+                <View style={{flexDirection: 'row', borderWidth: 2, borderColor: '#f6f6f6', paddingVertical: 3, paddingHorizontal: 10, borderRadius: 20}}>
+                    <Icon name={'ios-medical'} style={{color: '#f6f6f6', marginRight: 5}} />
+                    <Icon name={'ios-medical'} style={{color: '#f6f6f6', marginRight: 5}} />
+                    <Icon name={'ios-medical'} style={{color: '#f6f6f6', marginRight: 5}} />
+                    <Icon name={'ios-medical'} style={{color: '#f6f6f6', marginRight: 5}} />
                 </View>
 
-                <Text style={{fontSize: 14, marginTop: 10}}>تم ارسال رمز التحقق برسالة نصية للجوال:</Text>
-                <Text style={{fontSize: 14}}>+{this.props.login.mobile}</Text>
+                <Text style={{color: '#f6f6f6',fontSize: 14, marginTop: 10}}>تم ارسال رمز التحقق برسالة نصية للجوال:</Text>
+                <Text style={{color: Colors.brand,fontSize: 20, marginTop: 10}}>+{phone}</Text>
 
-                <Text style={{fontFamily: boldFont, marginTop: 15, color: '#9E9F9E'}}>أدخل رمز التحقق</Text>
+                <Text style={{fontFamily: boldFont, marginTop: 15, color: '#f6f6f6'}}>أدخل رمز التحقق</Text>
 
-                <View style={{backgroundColor: '#fff', width: 200, marginVertical: 10}}>
+                <View style={{backgroundColor: '#132f54', width: 200, marginVertical: 10}}>
                     <TextInputMask
                         onChangeText={(formatted, extracted) => this.props.onChangeText ? this.props.onChangeText(extracted) : {}}
                         mask={"[0] [0] [0] [0] [0]"}
                         underlineColorAndroid={Colors.transparent}
-                        style={{fontSize: 28, textAlign: 'left', alignSelf: 'center', width: 120, marginRight: 9}}
-                        placeholdertextColor={Colors.darkGray}
+                        style={{fontSize: 28, textAlign: 'left', alignSelf: 'center', width: 120, marginRight: 9, color: Colors.brand}}
                         keyboardType={'numeric'}
                     />
 
                     <View style={{alignSelf: 'center', flexDirection: 'row', marginTop: -20}}>
-                        <Icon name={'md-remove'} style={{marginRight: 4, fontSize: 30, color: Colors.darkGray}} />
-                        <Icon name={'md-remove'} style={{marginRight: 4, fontSize: 30, color: Colors.darkGray}} />
-                        <Icon name={'md-remove'} style={{marginRight: 4, fontSize: 30, color: Colors.darkGray}} />
-                        <Icon name={'md-remove'} style={{marginRight: 4, fontSize: 30, color: Colors.darkGray}} />
-                        <Icon name={'md-remove'} style={{marginRight: 4, fontSize: 30, color: Colors.darkGray}} />
+                        <Icon name={'md-remove'} style={{marginRight: 4, fontSize: 30, color: Colors.brand}} />
+                        <Icon name={'md-remove'} style={{marginRight: 4, fontSize: 30, color: Colors.brand}} />
+                        <Icon name={'md-remove'} style={{marginRight: 4, fontSize: 30, color: Colors.brand}} />
+                        <Icon name={'md-remove'} style={{marginRight: 4, fontSize: 30, color: Colors.brand}} />
+                        <Icon name={'md-remove'} style={{marginRight: 4, fontSize: 30, color: Colors.brand}} />
                     </View>
                 </View>
 
                 <TouchableOpacity onPress={() => {
                     this.ActionSheet.show()
                 }}>
-                    <Text style={{fontSize: 13, color: Colors.darkGray}}>اذا لم يصلك الرمز تواصل معنا بالاتصال <Icon name={'call'} style={{fontSize: 23, color: '#4AACFA'}} /> او واتساب <Icon name={'logo-whatsapp'} style={{fontSize: 23, color: '#28D300'}} /> </Text>
+                    <Text style={{fontSize: 13, color: Colors.white, marginBottom: 20, marginTop: 10}}>اذا لم يصلك الرمز تواصل معنا بالاتصال او واتساب</Text>
                 </TouchableOpacity>
 
                 <ActionSheet

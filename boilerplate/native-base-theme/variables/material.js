@@ -148,18 +148,18 @@ export default {
 
     // Header
     toolbarBtnColor: "#fff",
-    toolbarDefaultBg: '#ffc600',
+    toolbarDefaultBg: '#39b54a',
     toolbarHeight: 56,
     toolbarSearchIconSize: 23,
     toolbarInputColor: "#fff",
     searchBarHeight: platform === "ios" ? 30 : 40,
     searchBarInputHeight: platform === "ios" ? 40 : 50,
     toolbarBtnTextColor: "#fff",
-    toolbarDefaultBorder: "#ffc600",
+    toolbarDefaultBorder: "#39b54a",
     iosStatusbar: "light-content",
     get statusBarColor() {
         return color(this.toolbarDefaultBg)
-            .darken(0.1)
+            .darken(0.03)
             .hex();
     },
     get darkenHeader() {

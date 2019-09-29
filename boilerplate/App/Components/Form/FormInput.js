@@ -17,7 +17,7 @@ export default class FormInput extends Component {
 						}}
 						placeholder={this.props.placeholder}
 						style={styles.input}
-						placeholderTextColor={Colors.darkGray}
+						placeholderTextColor={Colors.gray}
 						{...this.props}
 					/>
 				</View>

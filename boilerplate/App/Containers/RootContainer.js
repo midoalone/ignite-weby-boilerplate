@@ -10,6 +10,7 @@ import material from '../../native-base-theme/variables/material'
 
 // Styles
 import styles from './Styles/RootContainerStyles'
+import ZadRoot from "../Components/Modals/ZadRoot"
 
 class RootContainer extends Component {
 	componentDidMount () {
@@ -24,7 +25,10 @@ class RootContainer extends Component {
 			<StyleProvider style={getTheme(material)}>
 				<View style={styles.applicationView}>
 					<StatusBar barStyle='light-content'/>
-					<ReduxNavigation/>
+
+					<ZadRoot>
+						<ReduxNavigation/>
+					</ZadRoot>
 				</View>
 			</StyleProvider>
 		)

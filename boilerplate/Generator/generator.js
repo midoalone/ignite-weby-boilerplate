@@ -8,7 +8,8 @@ const replace = require('replace-in-file')
 const mkdir = util.promisify(fs.mkdir)
 const writeFile = util.promisify(fs.writeFile)
 
-let config = JSON.parse(fs.readFileSync('Generator/config.json'))
+let config = JSON.parse(fs.readFileSync('Generator/config.json')),
+	structure = config.structure
 
 const camelToTitle = (camelCase) => camelCase
 	.replace(/([A-Z])/g, (match) => ` ${match}`)
@@ -17,30 +18,50 @@ const camelToTitle = (camelCase) => camelCase
 
 
 async function generateTemplates() {
-	let importedFiles = '//START Import Screens\n'
+	let importedFiles = '//START Import Screens\n',
+		stackNavigators = '//START Stack Navigators\n'
 
-	config.files.map(async (name) => {
-		await render(name)
+	structure.map((folder) => {
+		folder.files.map(async (name) => {
+			await render(name)
+		})
 	})
 
 	// Add to imported files
-	config.files.map((name) => {
-		let fileParts = name.split("/"),
-			fileName = fileParts[fileParts.length - 1]
+	structure.map((folder) => {
+		let stacks = ''
+		folder.files.map(async (name) => {
+			let fileParts = name.split("/"),
+				fileName = fileParts[fileParts.length - 1]
 
-		importedFiles += `import ${fileName} from '../Containers/${name}'\n`
-	})
+			importedFiles += `import ${fileName} from '../Containers/${name}'\n`
+			stacks += `\t\t${fileName}: {screen: ${fileName}},\n`
+		})
+
+		stackNavigators += `const ${folder.folder}Navigator = createStackNavigator({
+${stacks}
+\t},
+\t{
+\t\theaderMode: 'none',
+\t}
+)\n`})
 
 	importedFiles += '//END Import Screens'
+	stackNavigators += '//END Stack Navigators'
 
-	const options = {
+	const importReplace = await replace({
 		files: 'App/Navigation/AppNavigation.js',
 		from: /\/\/START Import Screens[^\0]*?\/\/END Import Screens/g,
 		to: importedFiles,
-	}
+	})
 
-	const results = await replace(options)
-	console.log('Replacement results:', results)
+	const stackReplace = await replace({
+		files: 'App/Navigation/AppNavigation.js',
+		from: /\/\/START Stack Navigators[^\0]*?\/\/END Stack Navigators/g,
+		to: stackNavigators,
+	})
+
+	console.log('Done...')
 }
 
 async function render(name) {
@@ -60,7 +81,7 @@ async function render(name) {
 		const dirPath = folder.split('/')
 		dirPath.forEach(async (element, index) => {
 			if (!fs.existsSync(dirPath.slice(0, index + 1).join('/')) && index < dirPath.length - 1) {
-				levels += '../'
+				// levels += '../'
 				await mkdir(dirPath.slice(0, index + 1).join('/'))
 			}
 		})

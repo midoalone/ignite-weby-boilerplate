@@ -9,7 +9,7 @@ const languages = ['english', 'ar']
 
 // Extract strings from JS files
 gulp.task('extract', function () {
-	return gulp.src(['App/Containers/*.js', 'App/Components/*.js', 'App/Navigation/*.js'])
+	return gulp.src(['App/Containers/*.js', 'App/Containers/*/*.js', 'App/Components/*.js', 'App/Components/*/*.js', 'App/Navigation/*.js', 'App/Lib/*.js'])
 		.pipe(scanner({
 			lngs: languages, // supported languages
 			resource: {
