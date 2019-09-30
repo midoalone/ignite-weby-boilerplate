@@ -11,7 +11,8 @@
 		"bundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
 		"debug": "cd android && ./gradlew assembleDebug",
 		"adb": "adb reverse tcp:9090 tcp:9090",
-		"generator": "node Generator/generator.js"
+		"generator": "node Generator/generator.js",
+		"patch": "node patches/patch.js"
 	},
 	"dependencies": {
 		"apisauce": "^1.0.5",

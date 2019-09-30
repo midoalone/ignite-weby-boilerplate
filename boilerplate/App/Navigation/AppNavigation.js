@@ -6,6 +6,8 @@ import {
 	createSwitchNavigator
 } from 'react-navigation'
 
+import {Image} from 'react-native'
+
 import LaunchScreen from '../Containers/LaunchScreen'
 import styles from './Styles/NavigationStyles'
 import MainScreen from '../Containers/MainScreen'

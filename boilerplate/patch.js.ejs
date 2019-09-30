@@ -1,0 +1,66 @@
+//imports
+const util = require("util")
+const fs = require("fs")
+const ejs = require("ejs")
+const lignator = require('lignator')
+const { execSync } = require( 'child_process' )
+
+const writeFile = util.promisify(fs.writeFile)
+const copyFile = util.promisify(fs.copyFile)
+const mkdir = util.promisify(fs.mkdir)
+
+const PLUGIN_PATH = "./files"
+const name = "<%= props.name %>"
+
+async function patch() {
+	let template
+
+	//  Main activity inject splash
+	template = await ejs
+		.renderFile(`${PLUGIN_PATH}/MainActivity.java.ejs`, {
+			app_package: name.toLowerCase(),
+			app_name: name,
+		})
+		.then(output => output)
+
+	await writeFile(`./android/app/src/main/java/com/${name.toLowerCase()}/MainActivity.java`, template, {
+		encoding: 'utf8',
+		flag: 'w'
+	})
+
+	// iOS AppDelegate
+	template = await ejs
+		.renderFile(`${PLUGIN_PATH}/AppDelegate.m.ejs`, {name})
+		.then(output => output)
+
+	await writeFile(`./ios/${name}/AppDelegate.m`, template, {
+		encoding: 'utf8',
+		flag: 'w'
+	})
+
+	// Layout
+	let layoutFolder = './android/app/src/main/res/layout'
+	if(!fs.existsSync(layoutFolder)) {
+		await mkdir(layoutFolder)
+	}
+
+	await copyFile(`${PLUGIN_PATH}/layout/launch_screen.xml`, `${layoutFolder}/launch_screen.xml`)
+
+	// Logo
+	let drawableFolder = './android/app/src/main/res/drawable-mdpi'
+	if(!fs.existsSync(drawableFolder)) {
+		await mkdir(drawableFolder)
+	}
+
+	await copyFile(`${PLUGIN_PATH}/logo.png`, `${drawableFolder}/logo.png`)
+
+	execSync('react-native link')
+
+	// Remove unwanted files
+	lignator.remove(`./ios/${name}-tvOS`)
+	lignator.remove(`./ios/${name}-tvOSTests`)
+	lignator.remove(`./ios/${name}Tests`)
+}
+
+patch().then(output => output)
+

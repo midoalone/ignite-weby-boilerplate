@@ -1,0 +1,9 @@
+{
+  "name": "patches",
+  "version": "1.0.0",
+  "dependencies": {
+    "replace-in-file": "^4.1.3",
+    "ejs": "^2.7.1",
+    "lignator": "^1.0.2"
+  }
+}

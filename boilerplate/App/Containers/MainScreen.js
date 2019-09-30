@@ -12,7 +12,7 @@ class MainScreen extends Component {
 		return (
 			<Container>
 
-				<AppHeader title={"Cart"} />
+				<AppHeader title={"Home Page"} />
 
 				<Content padder>
 

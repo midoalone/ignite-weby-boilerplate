@@ -51,6 +51,9 @@ async function install (context) {
   filesystem.copy(`${PLUGIN_PATH}/boilerplate/App`, `${APP_PATH}/App`, {
     overwrite: true
   })
+  filesystem.copy(`${PLUGIN_PATH}/boilerplate/runConfigurations`, `${APP_PATH}/.idea/runConfigurations`, {
+    overwrite: true
+  })
   filesystem.copy(`${PLUGIN_PATH}/boilerplate/assets`, `${APP_PATH}/assets`, {
     overwrite: true
   })
@@ -58,6 +61,9 @@ async function install (context) {
     overwrite: true
   })
   filesystem.copy(`${PLUGIN_PATH}/boilerplate/Generator`, `${APP_PATH}/Generator`, {
+    overwrite: true
+  })
+  filesystem.copy(`${PLUGIN_PATH}/boilerplate/patches`, `${APP_PATH}/patches`, {
     overwrite: true
   })
   spinner.stop()
@@ -68,11 +74,13 @@ async function install (context) {
   const templates = [
     { template: 'index.js.ejs', target: 'index.js' },
     { template: 'README.md', target: 'README.md' },
+    { template: 'react-native.config.js', target: 'react-native.config.js' },
     { template: '.babelrc', target: '.babelrc' },
     { template: '.editorconfig', target: '.editorconfig' },
     { template: 'ignite.json.ejs', target: 'ignite/ignite.json' },
     { template: 'gulpfile.js', target: 'gulpfile.js' },
-    { template: '.env.example', target: '.env.example' }
+    { template: '.env.example', target: '.env.example' },
+    { template: 'patch.js.ejs', target: 'patch.js' }
   ]
 
   const templateProps = {
@@ -119,7 +127,7 @@ async function install (context) {
     )(currentPackage)
 
     // write this out
-    filesystem.write('package.json', newPackage, { jsonIndent: 2 })
+    filesystem.write('package.json', newPackage, { jsonIndent: 4 })
   }
 
   await mergePackageJsons()
@@ -138,6 +146,15 @@ async function install (context) {
   await system.spawn('react-native link', { stdio: 'ignore' })
   spinner.stop()
 
+  // Generator and patches
+  spinner.text = `▸ generator & patches`
+  spinner.start()
+  await system.run('cd ../patches && npm i')
+  await system.run('cd ../Generator && npm i')
+
+  spinner.stop()
+  print.info('Generator & Patches')
+
   // install any plugins, including ourselves if we have generators.
   // please note you should always do `stdio: 'inherit'` or it'll hang
 
@@ -154,44 +171,6 @@ async function install (context) {
     throw e
   }
 
-  // Patching splash screen
-  spinner.text = '▸ Patching splash screen files'
-  spinner.start()
-
-  // Main activity inject splash
-  await ignite.copyBatch(context, [
-    { template: 'patches/MainActivity.java.ejs', target: 'MainActivity.java' }
-  ], {
-    app_package: name.toLowerCase(),
-    app_name: name,
-  }, {
-    quiet: true,
-    directory: `${APP_PATH}/android/app/src/main/java/com/${name.toLowerCase()}`
-  })
-
-  // Layout
-  filesystem.copy(`${PLUGIN_PATH}/boilerplate/patches/layout`, `${APP_PATH}/android/app/src/main/res/layout`, {
-    overwrite: true
-  })
-
-  // iOS AppDelegate
-  filesystem.copy(`${PLUGIN_PATH}/boilerplate/patches/AppDelegate.m`, `${APP_PATH}/ios/${name}/AppDelegate.m`, {
-    overwrite: true
-  })
-
-  // Logo
-  filesystem.copy(`${PLUGIN_PATH}/boilerplate/patches/drawable-mdpi/logo.png`, `${APP_PATH}/android/app/src/main/res/drawable-mdpi/logo.png`, {
-    overwrite: true
-  })
-
-  await system.spawn('react-native link', { stdio: 'ignore' })
-
-  spinner.stop()
-
-  // Remove unwanted files
-  filesystem.remove('ios/' + name + '-tvOS')
-  filesystem.remove('ios/' + name + '-tvOSTests')
-
   // initialize git
   const gitExists = await filesystem.exists('.git')
   if (!gitExists && !parameters.options['skip-git'] && system.which('git')) {
@@ -205,7 +184,7 @@ async function install (context) {
   print.info('')
   print.info('🍽 Installed!')
   print.info('')
-  print.info(print.colors.yellow(`  cd ${name}`))
+  print.info(print.colors.yellow(`  cd ${name} && node patches/patch.js`))
   print.info(print.colors.yellow('  react-native run-ios'))
   print.info(print.colors.yellow('  react-native run-android'))
   print.info('')
